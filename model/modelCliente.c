@@ -84,13 +84,20 @@ int linhaRemover(int ID, char str[]){ // arquivo;
     char buffer[MAX];
     FILE *f;
 
-    fopen(str, "rf");
+    f = fopen("cadastros.txt", "r");
 
-    while(!feof(f)){
+    do{ // ignora a primeira linha que contem \n;
         line = fgets(buffer, MAX, f);
-        sscanf(line, "%d", &tempID);
+        line = fgets(buffer, MAX, f);
+    }   while(0);
+
+    while(line!=NULL){
+        printf("[%s]\n", buffer);
+        sscanf(buffer, "%d", &tempID);
+        printf("{%d / %d}\n", ID, tempID);
         if(ID==tempID) return i;
         i++;
+        line = fgets(buffer, MAX, f);
     }
     fclose(f);
 
@@ -98,55 +105,32 @@ int linhaRemover(int ID, char str[]){ // arquivo;
 }
 
 void removerInfo(int ID){ // arquivo;
-    FILE *f1, *f2;
-    char file1[] ="info.txt";
-    char file2[] ="info.txt";
-    char curr;
-    int del, line_number = 0;
-    int i=2; // duas linhas pra remover;
-
-    del = linhaRemover(ID, "info.txt");
-
-    f1 = fopen(file1,"r");
-    f2 = fopen(file2, "w");
-
-    curr = getc(f1);
-    if(curr!=EOF) {line_number =1;}
-    while(i){
-      if(del != line_number)
-        putc(curr, f2);
-        curr = getc(f1);
-        if(curr =='\n') line_number++;
-        if(curr == EOF) break;
-      else i--;
-    }
-    fclose(f1);
-    fclose(f2);
+    // to be done;
 }
 
 void removerCadastros(int ID){ // arquivo;
     FILE *f1, *f2;
-    char file1[] ="cadastros.txt";
-    char file2[] ="cadastros.txt";
-    char curr;
-    int del, line_number = 0;
+    int del;
+    int line_number=1;
+    char buffer[MAX];
 
     del = linhaRemover(ID, "cadastros.txt");
 
-    f1 = fopen(file1,"r");
-    f2 = fopen(file2, "w");
+    f1 = fopen("cadastros.txt", "r");
+    f2 = fopen("replica.txt", "w");
 
-    curr = getc(f1);
-    if(curr!=EOF) {line_number =1;}
-    while(1){
-      if(del != line_number)
-        putc(curr, f2);
-        curr = getc(f1);
-        if(curr =='\n') line_number++;
-        if(curr == EOF) break;
+    while(fgets(buffer, MAX, f1)!=NULL){
+        if(del != line_number){
+          fprintf(f2, "%s", buffer);
+        }
+        line_number++;
     }
+
     fclose(f1);
     fclose(f2);
+
+    remove("cadastros.txt");
+    rename("replica.txt", "cadastros.txt");
 }
 
 void getName(char buffer[], Cliente *cliente){
