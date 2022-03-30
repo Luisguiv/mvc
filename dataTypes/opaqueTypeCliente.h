@@ -27,8 +27,13 @@ void viewPreencherNome(char str[]); // view
 void viewPreencherData(int *dia, int *mes, int *ano); // view;
 int viewRemoverCliente(); // view;
 void viewIDNotFound(); // view;
-void alterarCliente(Cliente *clienteAtual);
-void alterarCadastrosCliente(int id);
-int viewAlterarCliente();
+void alterarCliente(Cliente *clienteAtual); // control;
+void alterarCadastrosCliente(int id, Cliente *clienteAtual); // model;
+void alterarInfoDesejada(Cliente *cliente); // model;
+void getNome(char buffer[], Cliente *cliente); // model;
+void getDate(char buffer[], Cliente *cliente); // model;
+int viewAlterarCliente(); // view;
+int viewAlterarClienteInfo(); // view;
+int viewTemp(); // view;
 
 #endif // OPAQUETYPECLIENTE_H

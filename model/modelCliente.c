@@ -149,34 +149,68 @@ void removerCadastros(int ID){ // arquivo;
     fclose(f2);
 }
 
-void alterarCadastrosCliente(int id){
+void getName(char buffer[], Cliente *cliente){
+    char temp[MAX];
+
+    sscanf(buffer, "%*c%*c%*c %*d%*c%*[\t]%*[\t]%*s %s", temp);
+    setNome(cliente, temp);
+}
+
+void getDate(char buffer[], Cliente *cliente){
+    int tempD, tempM, tempA;
+
+    sscanf(buffer, "%*s %d%*c%d%*c%d", tempD, tempM, tempA);
+    setDia(cliente, tempD);
+    setMes(cliente, tempM);
+    setAno(cliente, tempA);
+}
+
+void alterarInfoDesejada(Cliente *cliente){
+    int escolha, temp;
+    char tempNome[MAX];
+
+    escolha = viewAlterarClienteInfo();
+
+    switch(escolha){
+        case 1:
+            scanf("%[^\n]%*c", tempNome);
+            setNome(cliente, tempNome);
+            break;
+        case 2:
+            temp = viewTemp();
+            setDia(cliente, temp);
+            break;
+        case 3:
+            temp = viewTemp();
+            setMes(cliente, temp);
+            break;
+        case 4:
+            temp = viewTemp();
+            setAno(cliente, temp);
+            break;
+    }
+}
+
+void alterarCadastrosCliente(int id, Cliente *cliente){
     char *line;
     char buffer[MAX];
     FILE *f;
     char temp[MAX];
-    int escolha;
-    char newName[MAX];
-    int tempD, tempM, tempA;
 
     sprintf(temp, "ID: %d", id);
 
-    f = fopen("info.txt", "rf");
+    f = fopen("info.txt", "w+");
 
     while(fgets(buffer, MAX, f)!=NULL){
         if(strstr(buffer, temp)){ // achou a linha que contem o ID;
-            // 2 linhas a computar;
-            scanf("%d", &escolha); // 1 nome, 2 data;
-            for(int i=1; i<=2; i++){
-                if(i==1 && i==escolha){
-                    scanf("%[^\n]%*c", newName);
-                    sprintf(buffer, "ID: %d{\t\tNome: %s\n", id, newName);
-                }
-                if(i==2 && i==escolha){
-                    fgets(buffer, MAX, f);
-                    scanf("%d %d %d", tempD, tempM, tempA);
-                    sprintf(buffer, "\t\t\tData: %02d/%02d/%04d\n\t}", tempD, tempM, tempA);
-                }
-            }
+            setID(cliente, id); // prencheu ID em memoria;
+            getName(buffer, cliente); // preencheu Nome em memoria;
+            fgets(buffer, MAX, f);
+            getDate(buffer, cliente); // preencheu Data em memoria;
+            removerInfo(id); // removeu info antiga;
+            alterarInfoDesejada(cliente);
+            preencherClienteTxt(cliente); // preencheu info nova;
+            break; // sai da analise;
         }
     }
     fclose(f);

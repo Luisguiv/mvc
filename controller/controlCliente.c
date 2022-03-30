@@ -150,7 +150,7 @@ void alterarCliente(Cliente *clienteAtual){
 
     if(livreID(id)) viewIDNotFound();
     else{
-        alterarCadastrosCliente(id);
+        alterarCadastrosCliente(id, clienteAtual);
     }
 }
 

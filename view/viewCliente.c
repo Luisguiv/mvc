@@ -57,4 +57,26 @@ int viewAlterarCliente(){
     return id;
 }
 
+int viewAlterarClienteInfo(){
+    int escolha;
+
+    printf("\t\t\t\tQual info deseja alterar?\n");
+    printf("\t\t\t\t(1) Nome: \n");
+    printf("\t\t\t\t(2) Dia: \n");
+    printf("\t\t\t\t(3) Mes: \n");
+    printf("\t\t\t\t(4) Ano: \n");
+    scanf("%d", &escolha);
+
+    return escolha;
+}
+
+int viewTemp(){
+    int temp;
+
+    printf("Digite a nova info: \n");
+    scanf("%d", &temp);
+
+    return temp;
+}
+
 #endif // VIEWCLIENTE_C
