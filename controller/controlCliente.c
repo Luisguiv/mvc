@@ -1,7 +1,7 @@
 // controlador façade para Cliente;
 #ifndef CONTROLCLIENTE_C
 #define CONTROLCLIENTE_C
-#import "opaqueTypeClienteIntern.h"
+#include "opaqueTypeClienteIntern.h"
 
 // construtor:
 Cliente *criarCliente(){
@@ -62,10 +62,6 @@ int showDia(Cliente *this){
 
 int showID(Cliente *this){
     return this->clienteID;
-}
-
-char *showNome(Cliente *this){
-    return this->clienteNome;
 }
 
 ///////////////////////////////////////////////////////////////

@@ -24,14 +24,10 @@ void viewClienteAuto(int tempID){
     printf("O ID gerado para o cliente foi: %d\n", tempID);
 }
 
-char *viewPreencherNome(){
-    char *tempNome;
-
+void viewPreencherNome(char str[]){
     printf("Escreva o nome do cliente: \n");
     scanf("%*c");
-    scanf("%[^\n]%*c", tempNome);
-
-    return tempNome;
+    scanf("%[^\n]%*c", str);
 }
 
 void viewPreencherData(int *dia, int *mes, int *ano){

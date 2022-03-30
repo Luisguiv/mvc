@@ -8,6 +8,8 @@ int menu(Cliente *cliente){
     printf("\n\n\n");
     printf("\t\t\t\t(1) Inserir um Cliente: \n");
     printf("\t\t\t\t(2) Remover um Cliente: \n");
+    // consulta
+    // alterar
     printf("\t\t\t\t(3) Fechar programa: \n");
 
     scanf("%d", escolha);

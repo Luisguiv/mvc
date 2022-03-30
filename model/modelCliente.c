@@ -16,6 +16,7 @@ int livreID(int ID){ // arquivo;
 
     while(!feof(f)){
         line = fgets(buffer, 20, f);
+        if(line==NULL) break;
         sscanf(line, "%d", &tempID);
         if(ID==tempID) return 0;
     }
@@ -30,15 +31,20 @@ void preencherCadastros(int ID){ // arquivo;
     f = fopen("cadastros.txt", "a");
     fprintf(f, "\n");
     fprintf(f, "%d", ID);
+
+    fclose(f);
 }
 
 void preencherClienteTxt(Cliente *clienteAtual){ // arquivo;
     FILE *f;
+    int count;
 
+    printf("%s / %d / %d %d %d", clienteAtual->clienteNome, showID(clienteAtual), showDia(clienteAtual), showMes(clienteAtual), showAno(clienteAtual));
     f = fopen("info.txt", "a");
     fprintf(f, "\n");
-    fprintf(f, "ID: %d{\tNome: %s\n\t\tData: %02d/%02d/%04d\n\t}",  showID(clienteAtual), showNome(clienteAtual), showDia(clienteAtual),
-                                                                    showMes(clienteAtual), showAno(clienteAtual));
+    fprintf(f, "ID: %d{\tNome: ",  showID(clienteAtual));
+    for(count=0; clienteAtual->clienteNome[count]!=0; count++) fprintf(f, "%c", clienteAtual->clienteNome[count]);
+    fprintf(f, "\n\t\tData: %02d/%02d/%04d\n\t}", showDia(clienteAtual), showMes(clienteAtual), showAno(clienteAtual));
     fclose(f);
 }
 
@@ -47,9 +53,8 @@ void preencherCliente(Cliente *clienteAtual){ // memoria;
     int tempD, tempM, tempA;
 
     // clienteNome;
-    strcpy(tempNome, viewPreencherNome());
+    viewPreencherNome(tempNome);
     setNome(clienteAtual, tempNome);
-
     //cliente dia/mes/ano;
     viewPreencherData(&tempD, &tempM, &tempA);
     setDia(clienteAtual, tempD);
@@ -65,7 +70,7 @@ void imprimirLog(){ // arquivo;
     time(&rawtime);
     timeinfo = localtime(&rawtime);
 
-    f = fopen("log.txt", "a");
+    f = fopen("erro.txt", "a");
     fprintf(f, "\n");
     fprintf(f, "%s%*c: ERRO: ID nao se enquadra nas regras de validacao; (ID DEVE SER UNICO E SER UM NUMERO POSITIVO MAIOR OU IGUAL A ZERO).", asctime(timeinfo));
 
