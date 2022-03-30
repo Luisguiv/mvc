@@ -139,7 +139,7 @@ void removerCliente(Cliente *clienteAtual){
     if(livreID(temp)) viewIDNotFound();
     else{
         removerCadastros(temp);
-        // removerInfo(temp);
+        removerInfo(temp);
     }
 }
 

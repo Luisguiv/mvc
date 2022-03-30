@@ -42,7 +42,7 @@ void preencherClienteTxt(Cliente *clienteAtual){ // arquivo;
     printf("%s / %d / %d %d %d", clienteAtual->clienteNome, showID(clienteAtual), showDia(clienteAtual), showMes(clienteAtual), showAno(clienteAtual));
     f = fopen("info.txt", "a");
     fprintf(f, "\n");
-    fprintf(f, "ID: %d{\t\tNome: ",  showID(clienteAtual));
+    fprintf(f, "%d {\t\tNome: ",  showID(clienteAtual));
     for(count=0; clienteAtual->clienteNome[count]!=0; count++) fprintf(f, "%c", clienteAtual->clienteNome[count]);
     fprintf(f, "\n\t\tData: %02d/%02d/%04d\n\t}", showDia(clienteAtual), showMes(clienteAtual), showAno(clienteAtual));
     fclose(f);
@@ -71,8 +71,8 @@ void imprimirLog(){ // arquivo;
     timeinfo = localtime(&rawtime);
 
     f = fopen("erro.txt", "a");
-    fprintf(f, "\n");
-    fprintf(f, "%s%*c: ERRO: ID nao se enquadra nas regras de validacao; (ID DEVE SER UNICO E SER UM NUMERO POSITIVO MAIOR OU IGUAL A ZERO).", asctime(timeinfo));
+
+    fprintf(f, "ERRO: ID nao se enquadra nas regras de validacao; (ID DEVE SER UNICO E SER UM NUMERO POSITIVO MAIOR OU IGUAL A ZERO): %s", asctime(timeinfo));
 
     fclose(f);
 }
@@ -84,7 +84,7 @@ int linhaRemover(int ID, char str[]){ // arquivo;
     char buffer[MAX];
     FILE *f;
 
-    f = fopen("cadastros.txt", "r");
+    f = fopen(str, "r");
 
     do{ // ignora a primeira linha que contem \n;
         line = fgets(buffer, MAX, f);
@@ -92,10 +92,8 @@ int linhaRemover(int ID, char str[]){ // arquivo;
     }   while(0);
 
     while(line!=NULL){
-        printf("[%s]\n", buffer);
-        sscanf(buffer, "%d", &tempID);
-        printf("{%d / %d}\n", ID, tempID);
-        if(ID==tempID) return i;
+        sscanf(buffer, "%d %*s", &tempID);
+        if(ID==tempID) return i+1;
         i++;
         line = fgets(buffer, MAX, f);
     }
@@ -105,7 +103,25 @@ int linhaRemover(int ID, char str[]){ // arquivo;
 }
 
 void removerInfo(int ID){ // arquivo;
-    // to be done;
+    FILE *f1, *f2;
+    int del;
+    int line_number=1;
+    char buffer[MAX];
+
+    del = linhaRemover(ID, "info.txt");
+
+    f1 = fopen("info.txt", "r");
+    f2 = fopen("replicaInfo.txt", "w");
+
+    while(fgets(buffer, MAX, f1)!=NULL){
+        if(del != line_number || del != line_number+1 || del != line_number+2){
+          fprintf(f2, "%s", buffer);
+        }
+        line_number++;
+    }
+
+    fclose(f1);
+    fclose(f2);
 }
 
 void removerCadastros(int ID){ // arquivo;
@@ -128,9 +144,6 @@ void removerCadastros(int ID){ // arquivo;
 
     fclose(f1);
     fclose(f2);
-
-    remove("cadastros.txt");
-    rename("replica.txt", "cadastros.txt");
 }
 
 void getName(char buffer[], Cliente *cliente){
