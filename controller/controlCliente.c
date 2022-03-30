@@ -143,5 +143,15 @@ void removerCliente(Cliente *clienteAtual){
     }
 }
 
+void alterarCliente(Cliente *clienteAtual){
+    int id;
+
+    id = viewAlterarCliente();
+
+    if(livreID(id)) viewIDNotFound();
+    else{
+        alterarCadastrosCliente(id);
+    }
+}
 
 #endif // CONTROLCLIENTE_C

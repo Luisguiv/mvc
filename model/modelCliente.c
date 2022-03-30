@@ -42,7 +42,7 @@ void preencherClienteTxt(Cliente *clienteAtual){ // arquivo;
     printf("%s / %d / %d %d %d", clienteAtual->clienteNome, showID(clienteAtual), showDia(clienteAtual), showMes(clienteAtual), showAno(clienteAtual));
     f = fopen("info.txt", "a");
     fprintf(f, "\n");
-    fprintf(f, "ID: %d{\tNome: ",  showID(clienteAtual));
+    fprintf(f, "ID: %d{\t\tNome: ",  showID(clienteAtual));
     for(count=0; clienteAtual->clienteNome[count]!=0; count++) fprintf(f, "%c", clienteAtual->clienteNome[count]);
     fprintf(f, "\n\t\tData: %02d/%02d/%04d\n\t}", showDia(clienteAtual), showMes(clienteAtual), showAno(clienteAtual));
     fclose(f);
@@ -147,6 +147,39 @@ void removerCadastros(int ID){ // arquivo;
     }
     fclose(f1);
     fclose(f2);
+}
+
+void alterarCadastrosCliente(int id){
+    char *line;
+    char buffer[MAX];
+    FILE *f;
+    char temp[MAX];
+    int escolha;
+    char newName[MAX];
+    int tempD, tempM, tempA;
+
+    sprintf(temp, "ID: %d", id);
+
+    f = fopen("info.txt", "rf");
+
+    while(fgets(buffer, MAX, f)!=NULL){
+        if(strstr(buffer, temp)){ // achou a linha que contem o ID;
+            // 2 linhas a computar;
+            scanf("%d", &escolha); // 1 nome, 2 data;
+            for(int i=1; i<=2; i++){
+                if(i==1 && i==escolha){
+                    scanf("%[^\n]%*c", newName);
+                    sprintf(buffer, "ID: %d{\t\tNome: %s\n", id, newName);
+                }
+                if(i==2 && i==escolha){
+                    fgets(buffer, MAX, f);
+                    scanf("%d %d %d", tempD, tempM, tempA);
+                    sprintf(buffer, "\t\t\tData: %02d/%02d/%04d\n\t}", tempD, tempM, tempA);
+                }
+            }
+        }
+    }
+    fclose(f);
 }
 
 #endif // MODELCLIENTE_C

@@ -48,4 +48,13 @@ void viewIDNotFound(){
     printf("ID nao encontrado!\n");
 }
 
+int viewAlterarCliente(){
+    int id;
+
+    printf("Qual é o ID do cliente que deseja alterar: \n");
+    scanf("%d", &id);
+
+    return id;
+}
+
 #endif // VIEWCLIENTE_C
