@@ -5,6 +5,8 @@
 typedef struct Cliente Cliente;
 Cliente *criarCliente(); // construtor;
 void freeCliente(Cliente *this); // destrutor;
+void writeOverCadastros();
+void writeOverInfo();
 int validarID(int ID); // control;
 int gerarID(); // control;
 void inserirCliente(Cliente *clienteAtual); // control;
@@ -35,5 +37,6 @@ void getDate(char buffer[], Cliente *cliente); // model;
 int viewAlterarCliente(); // view;
 int viewAlterarClienteInfo(); // view;
 int viewTemp(); // view;
+void consultar();
 
 #endif // OPAQUETYPECLIENTE_H

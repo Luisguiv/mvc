@@ -8,7 +8,7 @@ int livreID(int ID){ // arquivo;
     char *line;
     FILE *f;
 
-    f = fopen("cadastros.txt", "rt");
+    f = fopen("cadastros.txt", "r");
 
     do{ // ignora a primeira linha que contem \n;
         fgets(buffer, 20, f);
@@ -42,9 +42,9 @@ void preencherClienteTxt(Cliente *clienteAtual){ // arquivo;
     printf("%s / %d / %d %d %d", clienteAtual->clienteNome, showID(clienteAtual), showDia(clienteAtual), showMes(clienteAtual), showAno(clienteAtual));
     f = fopen("info.txt", "a");
     fprintf(f, "\n");
-    fprintf(f, "%d {\t\tNome: ",  showID(clienteAtual));
+    fprintf(f, "%d {Nome: ",  showID(clienteAtual));
     for(count=0; clienteAtual->clienteNome[count]!=0; count++) fprintf(f, "%c", clienteAtual->clienteNome[count]);
-    fprintf(f, "\n\t\tData: %02d/%02d/%04d\n\t}", showDia(clienteAtual), showMes(clienteAtual), showAno(clienteAtual));
+    fprintf(f, "; Data: %02d/%02d/%04d}\n", showDia(clienteAtual), showMes(clienteAtual), showAno(clienteAtual));
     fclose(f);
 }
 
@@ -92,7 +92,7 @@ int linhaRemover(int ID, char str[]){ // arquivo;
     }   while(0);
 
     while(line!=NULL){
-        sscanf(buffer, "%d %*s", &tempID);
+        sscanf(buffer, "%d", &tempID);
         if(ID==tempID) return i+1;
         i++;
         line = fgets(buffer, MAX, f);
@@ -114,7 +114,7 @@ void removerInfo(int ID){ // arquivo;
     f2 = fopen("replicaInfo.txt", "w");
 
     while(fgets(buffer, MAX, f1)!=NULL){
-        if(del != line_number || del != line_number+1 || del != line_number+2){
+        if(del != line_number){
           fprintf(f2, "%s", buffer);
         }
         line_number++;
@@ -146,17 +146,47 @@ void removerCadastros(int ID){ // arquivo;
     fclose(f2);
 }
 
+void writeOverCadastros(){
+    FILE *f1, *f2;
+    char buffer[MAX];
+
+    f1 = fopen("cadastros.txt", "w");
+    f2 = fopen("replica.txt", "r");
+
+    while(fgets(buffer, MAX, f2)!=NULL){
+        fprintf(f1, "%s", buffer);
+    }
+
+    fclose(f1);
+    fclose(f2);
+}
+
+void writeOverInfo(){
+    FILE *f1, *f2;
+    char buffer[MAX];
+
+    f1 = fopen("info.txt", "w");
+    f2 = fopen("replicaInfo.txt", "r");
+
+    while(fgets(buffer, MAX, f2)!=NULL){
+        fprintf(f1, "%s", buffer);
+    }
+
+    fclose(f1);
+    fclose(f2);
+}
+
 void getName(char buffer[], Cliente *cliente){
     char temp[MAX];
 
-    sscanf(buffer, "%*c%*c%*c %*d%*c%*[\t]%*[\t]%*s %s", temp);
+    sscanf(buffer, "%*d %*c%*c%*c%*c%*c%*c %[^;]%*c", temp);
     setNome(cliente, temp);
 }
 
 void getDate(char buffer[], Cliente *cliente){
     int tempD, tempM, tempA;
 
-    sscanf(buffer, "%*s %d%*c%d%*c%d", tempD, tempM, tempA);
+    sscanf(buffer, "%*[^;] %*c%*c%*c%*c%*c %d%*c%d%*c%d", tempD, tempM, tempA);
     setDia(cliente, tempD);
     setMes(cliente, tempM);
     setAno(cliente, tempA);
@@ -194,7 +224,7 @@ void alterarCadastrosCliente(int id, Cliente *cliente){
     FILE *f;
     char temp[MAX];
 
-    sprintf(temp, "ID: %d", id);
+    sprintf(temp, "%d", id);
 
     f = fopen("info.txt", "w+");
 
@@ -202,10 +232,9 @@ void alterarCadastrosCliente(int id, Cliente *cliente){
         if(strstr(buffer, temp)){ // achou a linha que contem o ID;
             setID(cliente, id); // prencheu ID em memoria;
             getName(buffer, cliente); // preencheu Nome em memoria;
-            fgets(buffer, MAX, f);
             getDate(buffer, cliente); // preencheu Data em memoria;
             removerInfo(id); // removeu info antiga;
-            alterarInfoDesejada(cliente);
+            alterarInfoDesejada(cliente); // alterar o que deseja;
             preencherClienteTxt(cliente); // preencheu info nova;
             break; // sai da analise;
         }

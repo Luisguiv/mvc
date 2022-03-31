@@ -141,6 +141,8 @@ void removerCliente(Cliente *clienteAtual){
         removerCadastros(temp);
         removerInfo(temp);
     }
+    writeOverCadastros();
+    writeOverInfo();
 }
 
 void alterarCliente(Cliente *clienteAtual){
@@ -152,6 +154,11 @@ void alterarCliente(Cliente *clienteAtual){
     else{
         alterarCadastrosCliente(id, clienteAtual);
     }
+}
+
+void consultar(){
+    system("notepad %USERPROFILE%\\Desktop\\build-mvc-Desktop_Qt_6_2_4_MinGW_64_bit-Debug\\info.txt");
+    system("pause");
 }
 
 #endif // CONTROLCLIENTE_C

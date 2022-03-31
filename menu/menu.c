@@ -9,7 +9,8 @@ int menu(Cliente *cliente){
     printf("\t\t\t\t(1) Inserir um Cliente: \n");
     printf("\t\t\t\t(2) Remover um Cliente: \n");
     printf("\t\t\t\t(3) Alterar um Cliente: \n");
-    printf("\t\t\t\t(4) Fechar programa: \n");
+    printf("\t\t\t\t(4) Consultar Relatorio: \n");
+    printf("\t\t\t\t(5) Fechar programa: \n");
 
     scanf("%d", escolha);
     scanf("%*c");
@@ -25,6 +26,10 @@ int menu(Cliente *cliente){
 
         case 3:
             alterarCliente(cliente);
+            break;
+
+        case 4:
+            consultar();
             break;
 
         default:
