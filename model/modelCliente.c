@@ -202,6 +202,7 @@ void alterarInfoDesejada(Cliente *cliente){
 
     switch(escolha){
         case 1:
+            scanf("%*c");
             scanf("%[^\n]%*c", tempNome);
             setNome(cliente, tempNome);
             break;
@@ -235,8 +236,10 @@ void alterarCadastrosCliente(int id, Cliente *cliente){
             setID(cliente, id); // prencheu ID em memoria;
             getName(buffer, cliente); // preencheu Nome em memoria;
             getDate(buffer, cliente); // preencheu Data em memoria;
+
             removerInfo(id); // removeu info antiga;
             writeOverInfo(); // escrever em cima;
+
             alterarInfoDesejada(cliente); // alterar o que deseja;
             preencherClienteTxt(cliente); // preencheu info nova;
             break; // sai da analise;
