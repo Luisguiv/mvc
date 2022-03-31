@@ -185,8 +185,10 @@ void getName(char buffer[], Cliente *cliente){
 
 void getDate(char buffer[], Cliente *cliente){
     int tempD, tempM, tempA;
+    char *temp;
 
-    sscanf(buffer, "%*[^;] %*c%*c%*c%*c%*c %d%*c%d%*c%d", tempD, tempM, tempA);
+    temp = strstr(buffer, "Data: ");
+    sscanf(temp, "%*c%*c%*c%*c%*c %d%*c%d%*c%d", &tempD, &tempM, &tempA);
     setDia(cliente, tempD);
     setMes(cliente, tempM);
     setAno(cliente, tempA);
@@ -226,7 +228,7 @@ void alterarCadastrosCliente(int id, Cliente *cliente){
 
     sprintf(temp, "%d", id);
 
-    f = fopen("info.txt", "w+");
+    f = fopen("info.txt", "r");
 
     while(fgets(buffer, MAX, f)!=NULL){
         if(strstr(buffer, temp)){ // achou a linha que contem o ID;
@@ -234,6 +236,7 @@ void alterarCadastrosCliente(int id, Cliente *cliente){
             getName(buffer, cliente); // preencheu Nome em memoria;
             getDate(buffer, cliente); // preencheu Data em memoria;
             removerInfo(id); // removeu info antiga;
+            writeOverInfo(); // escrever em cima;
             alterarInfoDesejada(cliente); // alterar o que deseja;
             preencherClienteTxt(cliente); // preencheu info nova;
             break; // sai da analise;
