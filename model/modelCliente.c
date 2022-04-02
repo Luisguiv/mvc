@@ -2,6 +2,45 @@
 #define MODELCLIENTE_C
 #include "opaqueTypeClienteIntern.h"
 
+void addTrip(){
+    FILE *f;
+    int ID;
+    char str[MAX];
+
+    printf("Qual o ID do usuario?\n");
+    scanf("%d", &ID);
+    printf("Para onde o usuario vai/foi?\n");
+    scanf("%*c");
+    scanf("%[^\n]%*c", str);
+
+    f = fopen("trip.txt", "a");
+    fprintf(f, "\n");
+    fprintf(f, "%d: {%s}\n", ID, str);
+
+    fclose(f);
+}
+
+void addHist(){
+    time_t rawtime;
+    struct tm *timeinfo;
+    FILE *f;
+    int IDc, IDa;
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    printf("Qual o ID do usuario?\n");
+    scanf("%d", &IDc);
+    printf("Qual o ID do alimento pedido?\n");
+    scanf("%d", &IDa);
+
+    f = fopen("hist.txt", "a");
+    fprintf(f, "\n");
+    fprintf(f, "%d: %d: %s", IDc, IDa, asctime(timeinfo));
+
+    fclose(f);
+}
+
 int livreID(int ID){ // arquivo;
     int tempID;
     char buffer[20];
@@ -39,7 +78,6 @@ void preencherClienteTxt(Cliente *clienteAtual){ // arquivo;
     FILE *f;
     int count;
 
-    printf("%s / %d / %d %d %d", clienteAtual->clienteNome, showID(clienteAtual), showDia(clienteAtual), showMes(clienteAtual), showAno(clienteAtual));
     f = fopen("info.txt", "a");
     fprintf(f, "\n");
     fprintf(f, "%d {Nome: ",  showID(clienteAtual));
@@ -75,6 +113,8 @@ void imprimirLog(){ // arquivo;
     fprintf(f, "ERRO: ID nao se enquadra nas regras de validacao; (ID DEVE SER UNICO E SER UM NUMERO POSITIVO MAIOR OU IGUAL A ZERO): %s", asctime(timeinfo));
 
     fclose(f);
+
+    printf("ERRO: ID nao se enquadra nas regras de validacao; (ID DEVE SER UNICO E SER UM NUMERO POSITIVO MAIOR OU IGUAL A ZERO).\n");
 }
 
 int linhaRemover(int ID, char str[]){ // arquivo;

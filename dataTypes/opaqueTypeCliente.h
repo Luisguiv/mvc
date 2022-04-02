@@ -5,6 +5,12 @@
 typedef struct Cliente Cliente;
 Cliente *criarCliente(); // construtor;
 void freeCliente(Cliente *this); // destrutor;
+void consultarTrip(); // control;
+void consultarHist(); // control;
+void commandDir(); // control;
+void addTrip(); // model;
+void addHist(); // model;
+void callHist(); // control:
 void writeOverCadastros(); // model;
 void writeOverInfo(); // model;
 int validarID(int ID); // control;
@@ -42,6 +48,7 @@ void consultar(); // control;
 typedef struct Alimento Alimento;
 Alimento *criarAlimento(); // construtor;
 void freeAlimento(Alimento *this); // destrutor;
+void commandDirAlimento(); // control;
 void inserirAlimento(Alimento *alimento); // control;
 void inserirAlimentoManual(Alimento *alimento); // control;
 void inserirAlimentoAuto(Alimento *alimento); // control;
@@ -49,6 +56,7 @@ void removerAlimento(Alimento *alimento); // control;
 void preencherCadastrosAlimento(int ID); // model;
 void preencherAlimentoTxt(Alimento *alimento); // model;
 void preencherAlimento(Alimento *alimento); // model;
+void removerAlimento(Alimento *alimento); // control;
 void removerInfoAlimento(int ID); // model;
 void removerCadastrosAlimento(int ID); // model;
 void removerAlimentoMemoria(Alimento *alimento); // model;

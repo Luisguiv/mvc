@@ -14,9 +14,7 @@ int livreAlimentoID(int ID){
         fgets(buffer, 20, f);
     }   while(0);
 
-    while(!feof(f)){
-        line = fgets(buffer, 20, f);
-        if(line==NULL) break;
+    while((line = fgets(buffer, 20, f))!=NULL){
         sscanf(line, "%d", &tempID);
         if(ID==tempID) return 0;
     }
@@ -91,7 +89,7 @@ void alterarInfoDesejadaAlimento(Alimento *alimento){
     char tempNome[MAX];
     char tempMar[MAX];
 
-    escolha = viewAlterarClienteInfo();
+    escolha = viewAlterarAlimentoInfo();
 
     switch(escolha){
         case 1:
@@ -144,9 +142,12 @@ void getMarca(char buffer[], Alimento *alimento){
     char tempMar[MAX];
     char *temp;
 
-    temp = strstr(buffer, "Marca: ");
-    sscanf(buffer, "%*c%*c%*c%*c%*c%*c %[^}]%*c", tempMar);
-    setMarca(alimento, tempMar);
+    if(alimento->temMar){
+        temp = strstr(buffer, "Marca: ");
+        sscanf(buffer, "%*c%*c%*c%*c%*c%*c %[^}]%*c", tempMar);
+        setMarca(alimento, tempMar);
+    }
+
 } // model;
 
 void preencherCadastrosAlimento(int ID){
@@ -167,11 +168,12 @@ void preencherAlimentoTxt(Alimento *alimento){
     fprintf(f, "\n");
     fprintf(f, "%d {Nome: ",  showAlimentoID(alimento));
     for(count=0; alimento->alimentoNome[count]!=0; count++) fprintf(f, "%c", alimento->alimentoNome[count]);
-    fprintf(f, "; Calorias: %.2f; Preco: R$%.2f", showCaloria(alimento), showPreco(alimento));
-    if(alimento->marca[0]!=0){
+    fprintf(f, "; Calorias: %.2f kcal; Preco: R$%.2f", showCaloria(alimento), showPreco(alimento));
+    if(alimento->temMar){
         fprintf(f, "; Marca: ");
-        for(count=0; alimento->marca[count]!=0; count++) fprintf(f, "%c", alimento->alimentoNome[count]);
+        for(count=0; alimento->marca[count]!=0; count++) fprintf(f, "%c", alimento->marca[count]);
     }
+    else fprintf(f, "; Marca: SEM_MARCA");
     fprintf(f, "}\n");
     fclose(f);
 } // model;
@@ -186,7 +188,14 @@ void preencherAlimento(Alimento *alimento){
     viewPreencherCalPr(&tempCal, &tempPr);
     setCalorico(alimento, tempCal);
     setPreco(alimento, tempPr);
-    if(viewPreencherMarca(tempMar)) setMarca(alimento, tempMar);
+    if(viewPreencherMarca(tempMar)) {
+        setMarca(alimento, tempMar);
+        alimento->temMar = 1;
+    }
+    else {
+        setMarca(alimento, "SEM_MARCA");
+        alimento->temMar = 0;
+    }
 } // model;
 
 void removerInfoAlimento(int ID){

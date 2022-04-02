@@ -9,5 +9,10 @@
 #include <errno.h>
 #include <ctype.h>
 #include <string.h>
+#include <unistd.h>
+#include <limits.h>
+#include <locale.h>
+#include <stdarg.h>
+#include <windows.h>
 
 #endif // LIBRARIES_H

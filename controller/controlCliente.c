@@ -156,8 +156,51 @@ void alterarCliente(Cliente *clienteAtual){
     }
 }
 
+void callHist(){
+    int escolha;
+
+    printf("(1) Adicionar alimento ao cliente: \n");
+    printf("(2) Adicionar viagem ao cliente: \n");
+    scanf("%d", &escolha);
+    switch(escolha){
+        case 1:
+            addHist();
+            break;
+        case 2:
+            addTrip();
+            break;
+    }
+}
+
+void commandDir(){
+   char command[PATH_MAX];
+   char cwd[PATH_MAX];
+
+   sprintf(cwd, "%USERPROFILE%\\Desktop\\build-mvc-Desktop_Qt_6_2_4_MinGW_64_bit-Debug");
+   sprintf(command, "notepad %s\\info.txt", cwd);
+   system(command);
+}
+
+void consultarHist(){
+    char command[PATH_MAX];
+    char cwd[PATH_MAX];
+
+    sprintf(cwd, "%USERPROFILE%\\Desktop\\build-mvc-Desktop_Qt_6_2_4_MinGW_64_bit-Debug");
+    sprintf(command, "notepad %s\\hist.txt", cwd);
+    system(command);
+}
+
+void consultarTrip(){
+    char command[PATH_MAX];
+    char cwd[PATH_MAX];
+
+    sprintf(cwd, "%USERPROFILE%\\Desktop\\build-mvc-Desktop_Qt_6_2_4_MinGW_64_bit-Debug");
+    sprintf(command, "notepad %s\\trip.txt", cwd);
+    system(command);
+}
+
 void consultar(){
-    system("notepad %USERPROFILE%\\Desktop\\build-mvc-Desktop_Qt_6_2_4_MinGW_64_bit-Debug\\info.txt");
+    commandDir();
     system("pause");
 }
 

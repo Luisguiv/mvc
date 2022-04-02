@@ -28,6 +28,7 @@ struct Alimento{
     float valorCalorico;
     float preco;
     char marca[MAX];
+    int temMar;
 };
 
 void inicializarAlimento(Alimento *this, int alimentoID, char alimentoNome[], float valorCalorico, float preco, char marca[]); // inicializador;

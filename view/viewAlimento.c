@@ -42,7 +42,7 @@ int viewRemoverAlimento(){
 int viewAlterarAlimento(){
     int id;
 
-    printf("Qual é o ID do alimento que deseja alterar: \n");
+    printf("Qual o ID do alimento que deseja alterar: \n");
     scanf("%d", &id);
 
     return id;
@@ -78,14 +78,14 @@ void viewPreencherAlimentoNome(char tempNome[]){
 // view;
 
 void viewPreencherCalPr(float *tempCal, float *tempPr){
-    printf("Escreva o valor calorico e a preco do alimento: \n");
+    printf("Escreva o valor calorico e a preco do alimento: (calorias) (preco com virgula)\n");
     scanf("%f %f", tempCal, tempPr);
 } // view;
 
 int viewPreencherMarca(char tempMar[]){
     int escolha;
 
-    printf("O alimento é industrializado?\n(1) Sim\t(2)Nao\n");
+    printf("O alimento e industrializado?\n(1) Sim\t(2)Nao\n");
     scanf("%d", &escolha);
 
     if(escolha==1){

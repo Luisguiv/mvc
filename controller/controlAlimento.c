@@ -2,6 +2,7 @@
 #ifndef CONTROLALIMENTO_C
 #define CONTROLALIMENTO_C
 #include "opaqueTypeClienteIntern.h"
+#include "menu.h"
 
 Alimento *criarAlimento(){
     Alimento *newAlimento = malloc(sizeof(Alimento));
@@ -102,7 +103,7 @@ void removerAlimento(Alimento *alimento){
     temp = viewRemoverAlimento();
 
     // remover do arquivo;
-    if(livreID(temp)) viewIDNotFound();
+    if(livreAlimentoID(temp)) viewIDNotFound();
     else{
         removerCadastrosAlimento(temp);
         removerInfoAlimento(temp);
@@ -116,14 +117,23 @@ void alterarAlimento(Alimento *alimento){
 
     id = viewAlterarAlimento();
 
-    if(livreID(id)) viewIDNotFound();
+    if(livreAlimentoID(id)) viewIDNotFound();
     else{
         alterarCadastrosAlimento(id, alimento);
     }
 } // control;
 
+void commandDirAlimento(){
+   char command[PATH_MAX];
+   char cwd[PATH_MAX];
+
+   sprintf(cwd, "%USERPROFILE%\\Desktop\\build-mvc-Desktop_Qt_6_2_4_MinGW_64_bit-Debug");
+   sprintf(command, "notepad %s\\infoAlimento.txt", cwd);
+   system(command);
+}
+
 void consultarAlimento(){
-    system("notepad %USERPROFILE%\\Desktop\\build-mvc-Desktop_Qt_6_2_4_MinGW_64_bit-Debug\\infoAlimento.txt");
+    commandDirAlimento();
     system("pause");
 } // control;
 
