@@ -2,7 +2,7 @@
 #define MENU_C
 #include "menu.h"
 
-int menu(Cliente *cliente){
+int menu(Cliente *cliente, Alimento *alimento){
     int *escolha = malloc(sizeof(int));
 
     printf("\n\n\n");
